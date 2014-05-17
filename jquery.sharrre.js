@@ -100,8 +100,8 @@
   urlJson = {
     googlePlus: "",
 
-	//new FQL method by Sire
-	facebook: "https://graph.facebook.com/fql?q=SELECT%20url,%20normalized_url,%20share_count,%20like_count,%20comment_count,%20total_count,commentsbox_count,%20comments_fbid,%20click_count%20FROM%20link_stat%20WHERE%20url=%27{url}%27&callback=?",
+   //new FQL method by Sire
+   facebook: "https://graph.facebook.com/fql?q=SELECT%20url,%20normalized_url,%20share_count,%20like_count,%20comment_count,%20total_count,commentsbox_count,%20comments_fbid,%20click_count%20FROM%20link_stat%20WHERE%20url=%27{url}%27&callback=?",
     //old method facebook: "http://graph.facebook.com/?id={url}&callback=?",
     //facebook : "http://api.ak.facebook.com/restserver.php?v=1.0&method=links.getStats&urls={url}&format=json"
     
@@ -455,7 +455,7 @@
           temp = temp.replace('\u00c2\u00a0', '');  //remove google plus special chars
           count += parseInt(temp, 10);
         }
-		//get the FB total count (shares, likes and more)
+      //get the FB total count (shares, likes and more)
         else if(json.data && json.data.length > 0 && typeof json.data[0].total_count !== "undefined"){ //Facebook total count
           count += parseInt(json.data[0].total_count, 10);
         }
@@ -508,8 +508,8 @@
     }
     else{ //template by defaults
       $(this.element).html(
-                            '<div class="box"><a class="count" href="#">' + total + '</a>' + 
-                            (this.options.title !== '' ? '<a class="share" href="#">' + this.options.title + '</a>' : '') +
+                            '<div class="box"><a class="count" href="javascript:void(0);">' + total + '</a>' +
+                            (this.options.title !== '' ? '<a class="share" href="javascript:void(0);">' + this.options.title + '</a>' : '') +
                             '</div>'
                           );
     }
