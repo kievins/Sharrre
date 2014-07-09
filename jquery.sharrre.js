@@ -92,6 +92,9 @@
         media: '',
         description: '',
         layout: 'horizontal'
+      },
+      email: { // Send by email
+        url: ''
       }
     }
   },
@@ -341,6 +344,9 @@
     },
     pinterest: function(opt){
       window.open('http://pinterest.com/pin/create/button/?url='+encodeURIComponent((opt.buttons.pinterest.url !== '' ? opt.buttons.pinterest.url : opt.url))+'&media='+encodeURIComponent(opt.buttons.pinterest.media)+'&description='+opt.buttons.pinterest.description, 'pinterest', 'toolbar=no,width=700,height=300');
+    },
+    email: function (opt) {
+      window.open('mailto:?body=' + (opt.buttons.email.url !== '' ? opt.buttons.email.url : opt.url) + '&subject=' + opt.text, 'email', 'toolbar=no,width=550,height=550');
     }
   };
 
