@@ -558,10 +558,14 @@
   
   /* Methode for add +1 to a counter
   ================================================== */
-  Plugin.prototype.simulateClick = function () {
+  Plugin.prototype.simulateClick = function (className) {
     var html = $(this.element).html();
-    $(this.element).html(html.replace(this.options.total, this.options.total+1));
-  };
+    if (className === undefined) {
+      $(this.element).html(html.replace(this.options.total, this.options.total+1));
+    } else {
+      $('.'+className).html(html.replace(this.options.total, this.options.total+1));
+    }
+  };  
   
   /* Methode for add +1 to a counter
   ================================================== */
