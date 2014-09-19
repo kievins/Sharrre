@@ -294,7 +294,7 @@
           twttr.events.bind('tweet', function(event) {
             if (event) {
               //_gaq.push(['_trackSocial', 'twitter', 'tweet']);
-              ga('send', 'social', 'twitter', 'tweet');
+              ga('send', 'social', 'twitter', 'tweet');            
             }
           });
           //console.log('ok');
@@ -538,7 +538,7 @@
     if(this.options.enableTracking === true){ //tracking!
       var tracking = {
         googlePlus: {site: 'Google', action: '+1'},
-        facebook: {site: 'facebook', action: 'like'},
+        facebook: {site: 'facebook', action: 'share'},
         twitter: {site: 'twitter', action: 'tweet'},
         digg: {site: 'digg', action: 'add'},
         delicious: {site: 'delicious', action: 'add'},
@@ -547,19 +547,20 @@
         pinterest: {site: 'pinterest', action: 'pin'}
       };
       //_gaq.push(['_trackSocial', tracking[site].site, tracking[site].action]);
-      ga('send', 'social', tracking[site].site, tracking[site].action);
+      //ga('send', 'social', tracking[site].site, tracking[site].action);
+      ga('send', 'social', {
+        'socialNetwork': tracking[site].site,
+        'socialAction': tracking[site].action,
+        'socialTarget': this.options.url
+      });
     }
   };
   
   /* Methode for add +1 to a counter
   ================================================== */
-  Plugin.prototype.simulateClick = function (className) {
+  Plugin.prototype.simulateClick = function () {
     var html = $(this.element).html();
-    if (className === undefined) {
-      $(this.element).html(html.replace(this.options.total, this.options.total+1));
-    } else {
-      $('.'+className).html(html.replace(this.options.total, this.options.total+1));
-    }
+    $(this.element).html(html.replace(this.options.total, this.options.total+1));
   };
   
   /* Methode for add +1 to a counter
