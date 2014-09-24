@@ -514,7 +514,7 @@
     else{ //template by defaults
       $(this.element).html(
                             '<div class="box"><a class="count" href="#">' + total + '</a>' + 
-                            (this.options.title !== '' ? '<a class="share" href="#">' + this.options.title + '</a>' : '') +
+                            (this.options.title !== '' ? '<a class="share" href="#"><span>' + this.options.title + '</span></a>' : '') +
                             '</div>'
                           );
     }
