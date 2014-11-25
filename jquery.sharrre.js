@@ -282,7 +282,6 @@
               //_gaq.push(['_trackSocial', 'facebook', 'send', targetUrl]);
               ga('send', 'social', 'facebook', 'send', targetUrl);
             });
-            //console.log('ok');
             clearInterval(fb);
           }
         },1000);
@@ -297,7 +296,6 @@
                 ga('send', 'social', 'twitter', 'tweet');
               }
             });
-            //console.log('ok');
             clearInterval(tw);
           }
         },1000);
@@ -366,6 +364,7 @@
   /* Initialization method
    ================================================== */
   Plugin.prototype.init = function () {
+
     var self = this;
     if(this.options.urlCurl !== ''){
       urlJson.googlePlus = this.options.urlCurl + '?url={url}&type=googlePlus'; // PHP script for GooglePlus...
@@ -451,17 +450,20 @@
       url = self.cleanURL(this.options.url,name),
       currentURL = self.cleanURL(window.location.href,name);
 
+    // Add any type of url we may have.
     var urls = [url];
     if (url != currentURL) {
       urls[urls.length] = currentURL;
     }
+
+    // Add https versions of the url
     for (var index in urls) {
       urls[urls.length] = 'https://' + urls[index];
       urls[index] = 'http://' + urls[index];
     }
-    if(url != '' && self.options.urlCurl !== ''){  //urlCurl = '' if you don't want to used PHP script but used social button
+    if (url != '' && self.options.urlCurl !== '') {  //urlCurl = '' if you don't want to used PHP script but used social button
       for (var index in urls) {
-        $.getJSON(self.buildSocialURL(urls[index]), function(json){
+        $.getJSON(self.buildSocialURL(urls[index], name), function(json){
           if(typeof json.count !== "undefined"){  //GooglePlus, Stumbleupon, Twitter, Pinterest and Digg
             var temp = json.count + '';
             temp = temp.replace('\u00c2\u00a0', '');  //remove google plus special chars
@@ -476,11 +478,11 @@
           }
           else if(typeof json[0] !== "undefined"){  //Stumbleupon
           }
+
           self.options.count[name] += count;
           self.options.total += count;
           self.renderer();
           self.rendererPerso();
-          //console.log(json); //debug
         })
           .error(function() {
             self.options.count[name] = 0;
@@ -508,11 +510,8 @@
   /* convert url to social link
    ================================================== */
   Plugin.prototype.buildSocialURL = function(url, name) {
-    url = urlJson[name].replace('{url}', encodeURIComponent(url));
-    if(this.options.buttons[name].urlCount === true && this.options.buttons[name].url !== ''){
-      url = urlJson[name].replace('{url}', this.options.buttons[name].url);
-    }
-    return url;
+    newurl = (this.options.buttons[name].urlCount === true && this.options.buttons[name].url !== '') ? this.options.buttons[name].url : encodeURIComponent(url);
+    return urlJson[name].replace('{url}', newurl);
   };
 
   /* launch render methode
