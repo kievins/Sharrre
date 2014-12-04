@@ -456,7 +456,6 @@
           var temp = json.count + '';
           temp = temp.replace('\u00c2\u00a0', '');  //remove google plus special chars
           count += parseInt(temp, 10);
-          console.log('name: ' + name + ', count: ' + count);
         }
         //get the FB total count (shares, likes and more)
         else if(json.data && json.data.length > 0 && typeof json.data[0].total_count !== "undefined"){ //Facebook total count
