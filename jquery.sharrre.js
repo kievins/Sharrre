@@ -442,53 +442,41 @@
     });
   };
 
-  /* getSocialJson methode
+  /* getSocialJson method
    ================================================== */
   Plugin.prototype.getSocialJson = function (name) {
     var self = this,
       count = 0,
-      url = self.cleanURL(this.options.url,name),
-      currentURL = self.cleanURL(window.location.href,name);
+      url = 'http://' + self.cleanURL(window.location.href,name);
 
-    // Add any type of url we may have.
-    var urls = [url];
-    if (url != currentURL) {
-      urls[urls.length] = currentURL;
-    }
+    if (self.options.urlCurl !== '') {  //urlCurl = '' if you don't want to used PHP script but used social button
 
-    // Add https versions of the url
-    for (var index in urls) {
-      urls[urls.length] = 'https://' + urls[index];
-      urls[index] = 'http://' + urls[index];
-    }
-    if (url != '' && self.options.urlCurl !== '') {  //urlCurl = '' if you don't want to used PHP script but used social button
-      for (var index in urls) {
-        $.getJSON(self.buildSocialURL(urls[index], name), function(json){
-          if(typeof json.count !== "undefined"){  //GooglePlus, Stumbleupon, Twitter, Pinterest and Digg
-            var temp = json.count + '';
-            temp = temp.replace('\u00c2\u00a0', '');  //remove google plus special chars
-            count += parseInt(temp, 10);
-          }
-          //get the FB total count (shares, likes and more)
-          else if(json.data && json.data.length > 0 && typeof json.data[0].total_count !== "undefined"){ //Facebook total count
-            count += parseInt(json.data[0].total_count, 10);
-          }
-          else if(typeof json[0] !== "undefined"){  //Delicious
-            count += parseInt(json[0].total_posts, 10);
-          }
-          else if(typeof json[0] !== "undefined"){  //Stumbleupon
-          }
+      $.getJSON(self.buildSocialURL(url, name), function(json){
+        if(typeof json.count !== "undefined"){  //GooglePlus, Stumbleupon, Twitter, Pinterest and Digg
+          var temp = json.count + '';
+          temp = temp.replace('\u00c2\u00a0', '');  //remove google plus special chars
+          count += parseInt(temp, 10);
+          console.log('name: ' + name + ', count: ' + count);
+        }
+        //get the FB total count (shares, likes and more)
+        else if(json.data && json.data.length > 0 && typeof json.data[0].total_count !== "undefined"){ //Facebook total count
+          count += parseInt(json.data[0].total_count, 10);
+        }
+        else if(typeof json[0] !== "undefined"){  //Delicious
+          count += parseInt(json[0].total_posts, 10);
+        }
+        else if(typeof json[0] !== "undefined"){  //Stumbleupon
+        }
 
-          self.options.count[name] += count;
-          self.options.total += count;
-          self.renderer();
+        self.options.count[name] += count;
+        self.options.total += count;
+        self.renderer();
+        self.rendererPerso();
+      })
+        .error(function() {
+          self.options.count[name] = 0;
           self.rendererPerso();
-        })
-          .error(function() {
-            self.options.count[name] = 0;
-            self.rendererPerso();
-          });
-      }
+        });
     }
     else{
       self.renderer();
