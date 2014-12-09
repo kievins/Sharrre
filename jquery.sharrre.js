@@ -147,6 +147,9 @@
           if (d.getElementById(id)) {return;}
           js = d.createElement(s); js.id = id;
           js.src = '//connect.facebook.net/'+sett.lang+'/all.js#xfbml=1';
+          if (sett.appId) {
+            js.src += '&appId='+sett.appId;
+          }
           fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
       }
