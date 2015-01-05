@@ -15,7 +15,7 @@ Usage
       twitter: true
     },
     url: 'http://sharrre.com'
-  });
+     });
 
 Example
 ===
