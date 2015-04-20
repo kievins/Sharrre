@@ -92,6 +92,9 @@
         media: '',
         description: '',
         layout: 'horizontal'
+      },
+      email: { // Send by email
+        url: ''
       }
     }
   },
@@ -100,8 +103,8 @@
   urlJson = {
     googlePlus: "",
 
-	//new FQL method by Sire
-	facebook: "https://graph.facebook.com/fql?q=SELECT%20url,%20normalized_url,%20share_count,%20like_count,%20comment_count,%20total_count,commentsbox_count,%20comments_fbid,%20click_count%20FROM%20link_stat%20WHERE%20url=%27{url}%27&callback=?",
+   //new FQL method by Sire
+   facebook: "https://graph.facebook.com/fql?q=SELECT%20url,%20normalized_url,%20share_count,%20like_count,%20comment_count,%20total_count,commentsbox_count,%20comments_fbid,%20click_count%20FROM%20link_stat%20WHERE%20url=%27{url}%27&callback=?",
     //old method facebook: "http://graph.facebook.com/?id={url}&callback=?",
     //facebook : "http://api.ak.facebook.com/restserver.php?v=1.0&method=links.getStats&urls={url}&format=json"
     
@@ -271,13 +274,13 @@
       fb = window.setInterval(function(){
         if (typeof FB !== 'undefined') {
           FB.Event.subscribe('edge.create', function(targetUrl) {
-            _gaq.push(['_trackSocial', 'facebook', 'like', targetUrl]);
+              ga('send', 'social', 'facebook', 'like', targetUrl);
           });
           FB.Event.subscribe('edge.remove', function(targetUrl) {
-            _gaq.push(['_trackSocial', 'facebook', 'unlike', targetUrl]);
+              ga('send', 'social', 'facebook', 'unlike', targetUrl);
           });
           FB.Event.subscribe('message.send', function(targetUrl) {
-            _gaq.push(['_trackSocial', 'facebook', 'send', targetUrl]);
+              ga('send', 'social', 'facebook', 'like', targetUrl);
           });
           //console.log('ok');
           clearInterval(fb);
@@ -290,7 +293,7 @@
         if (typeof twttr !== 'undefined') {
           twttr.events.bind('tweet', function(event) {
             if (event) {
-              _gaq.push(['_trackSocial', 'twitter', 'tweet']);
+                ga('send', 'social', 'twitter', 'tweet');
             }
           });
           //console.log('ok');
@@ -308,7 +311,7 @@
     stumbleupon: function(){},
     linkedin: function(){
       function LinkedInShare() {
-        _gaq.push(['_trackSocial', 'linkedin', 'share']);
+          ga('send', 'social', 'linkedin', 'share');
       }
     },
     pinterest: function(){
@@ -318,29 +321,32 @@
   /* Popup for each social network
   ================================================== */
   popup = {
-    googlePlus: function(opt){
-      window.open("https://plus.google.com/share?hl="+opt.buttons.googlePlus.lang+"&url="+encodeURIComponent((opt.buttons.googlePlus.url !== '' ? opt.buttons.googlePlus.url : opt.url)), "", "toolbar=0, status=0, width=900, height=500");
+    googlePlus: function (opt) {
+      window.open("https://plus.google.com/share?hl=" + opt.buttons.googlePlus.lang + "&url=" + encodeURIComponent((opt.buttons.googlePlus.url !== '' ? opt.buttons.googlePlus.url : opt.url)), "", "toolbar=0, status=0, width=320, height=640");
     },
-    facebook: function(opt){
-      window.open("http://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent((opt.buttons.facebook.url !== '' ? opt.buttons.facebook.url : opt.url))+"&t="+opt.text+"", "", "toolbar=0, status=0, width=900, height=500");
+    facebook: function (opt) {
+      window.open("http://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent((opt.buttons.facebook.url !== '' ? opt.buttons.facebook.url : opt.url)) + "&t=" + opt.text + "", "", "toolbar=0, status=0, width=320, height=500");
     },
-    twitter: function(opt){
-      window.open("https://twitter.com/intent/tweet?text="+encodeURIComponent(opt.text)+"&url="+encodeURIComponent((opt.buttons.twitter.url !== '' ? opt.buttons.twitter.url : opt.url))+(opt.buttons.twitter.via !== '' ? '&via='+opt.buttons.twitter.via : '')+(opt.buttons.twitter.hashtags !== '' ? '&hashtags='+encodeURIComponent(opt.buttons.twitter.hashtags) : ''), "", "toolbar=0, status=0, width=650, height=360");
+    twitter: function (opt) {
+      window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(opt.text) + "&url=" + encodeURIComponent((opt.buttons.twitter.url !== '' ? opt.buttons.twitter.url : opt.url)) + (opt.buttons.twitter.via !== '' ? '&via=' + opt.buttons.twitter.via : ''), "", "toolbar=0, status=0, width=320, height=450");
     },
-    digg: function(opt){
-      window.open("http://digg.com/tools/diggthis/submit?url="+encodeURIComponent((opt.buttons.digg.url !== '' ? opt.buttons.digg.url : opt.url))+"&title="+opt.text+"&related=true&style=true", "", "toolbar=0, status=0, width=650, height=360");
+    digg: function (opt) {
+      window.open("http://digg.com/tools/diggthis/submit?url=" + encodeURIComponent((opt.buttons.digg.url !== '' ? opt.buttons.digg.url : opt.url)) + "&title=" + opt.text + "&related=true&style=true", "", "toolbar=0, status=0, width=650, height=360");
     },
-    delicious: function(opt){
-      window.open('http://www.delicious.com/save?v=5&noui&jump=close&url='+encodeURIComponent((opt.buttons.delicious.url !== '' ? opt.buttons.delicious.url : opt.url))+'&title='+opt.text, 'delicious', 'toolbar=no,width=550,height=550');
+    delicious: function (opt) {
+      window.open('http://www.delicious.com/save?v=5&noui&jump=close&url=' + encodeURIComponent((opt.buttons.delicious.url !== '' ? opt.buttons.delicious.url : opt.url)) + '&title=' + opt.text, 'delicious', 'toolbar=no,width=550,height=550');
     },
-    stumbleupon: function(opt){
-      window.open('http://www.stumbleupon.com/badge/?url='+encodeURIComponent((opt.buttons.stumbleupon.url !== '' ? opt.buttons.stumbleupon.url : opt.url)), 'stumbleupon', 'toolbar=no,width=550,height=550');
+    stumbleupon: function (opt) {
+      window.open('http://www.stumbleupon.com/badge/?url=' + encodeURIComponent((opt.buttons.stumbleupon.url !== '' ? opt.buttons.stumbleupon.url : opt.url)), 'stumbleupon', 'toolbar=no,width=550,height=550');
     },
-    linkedin: function(opt){
-      window.open('https://www.linkedin.com/cws/share?url='+encodeURIComponent((opt.buttons.linkedin.url !== '' ? opt.buttons.linkedin.url : opt.url))+'&token=&isFramed=true', 'linkedin', 'toolbar=no,width=550,height=550');
+    linkedin: function (opt) {
+      window.open('https://www.linkedin.com/cws/share?url=' + encodeURIComponent((opt.buttons.linkedin.url !== '' ? opt.buttons.linkedin.url : opt.url)) + '&token=&isFramed=true', 'linkedin', 'toolbar=no,width=550,height=550');
     },
-    pinterest: function(opt){
-      window.open('http://pinterest.com/pin/create/button/?url='+encodeURIComponent((opt.buttons.pinterest.url !== '' ? opt.buttons.pinterest.url : opt.url))+'&media='+encodeURIComponent(opt.buttons.pinterest.media)+'&description='+opt.buttons.pinterest.description, 'pinterest', 'toolbar=no,width=700,height=300');
+    pinterest: function (opt) {
+      window.open('http://pinterest.com/pin/create/button/?url=' + encodeURIComponent((opt.buttons.pinterest.url !== '' ? opt.buttons.pinterest.url : opt.url)) + '&media=' + encodeURIComponent(opt.buttons.pinterest.media) + '&description=' + opt.buttons.pinterest.description, 'pinterest', 'toolbar=no,width=700,height=300');
+    },
+    email: function (opt) {
+      window.open('mailto:?body=' + (opt.buttons.email.url !== '' ? opt.buttons.email.url : opt.url) + '&subject=' + opt.text, 'email', 'toolbar=no,width=550,height=550');
     }
   };
 
@@ -455,7 +461,7 @@
           temp = temp.replace('\u00c2\u00a0', '');  //remove google plus special chars
           count += parseInt(temp, 10);
         }
-		//get the FB total count (shares, likes and more)
+      //get the FB total count (shares, likes and more)
         else if(json.data && json.data.length > 0 && typeof json.data[0].total_count !== "undefined"){ //Facebook total count
           count += parseInt(json.data[0].total_count, 10);
         }
@@ -508,8 +514,8 @@
     }
     else{ //template by defaults
       $(this.element).html(
-                            '<div class="box"><a class="count" href="#">' + total + '</a>' + 
-                            (this.options.title !== '' ? '<a class="share" href="#">' + this.options.title + '</a>' : '') +
+                            '<div class="box"><a class="count" href="javascript:void(0);">' + total + '</a>' +
+                            (this.options.title !== '' ? '<a class="share" href="javascript:void(0);">' + this.options.title + '</a>' : '') +
                             '</div>'
                           );
     }
@@ -541,7 +547,7 @@
         linkedin: {site: 'linkedin', action: 'share'},
         pinterest: {site: 'pinterest', action: 'pin'}
       };
-      _gaq.push(['_trackSocial', tracking[site].site, tracking[site].action]);
+      ga('send', 'social', tracking[site].site, tracking[site].action);
     }
   };
   
