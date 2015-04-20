@@ -458,7 +458,7 @@ var pluginName = 'sharrre',
   Plugin.prototype.getSocialJson = function (name) {
     var self = this,
       count = 0,
-      url = 'http://' + self.cleanURL(window.location.href,name);
+      url = 'http://' + self.cleanURL(self.options.url,name);
 
     if (self.options.urlCurl !== '') {  //urlCurl = '' if you don't want to used PHP script but used social button
 
