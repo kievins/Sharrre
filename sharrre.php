@@ -19,7 +19,8 @@ $context = stream_context_create(array(
     //'proxy' => 'tcp://proxy.example.com:5100', //  
     'max_redirects' => 5,
     'user_agent' => 'Sharrre',
-    'timeout' => 5
+    'timeout' => 5,
+    'verify_peer' => false,
   )
 ));
 
@@ -39,7 +40,7 @@ switch(filter_input(INPUT_GET, 'type')){
        
     if (!empty($response) && ($result = json_decode($response)) && isset($result->result->views))
     {
-        $json['count'] = $result->result->views;
+        $json['count'] = (int)$result->result->views;
     }
 
     break;
