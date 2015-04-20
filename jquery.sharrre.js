@@ -15,6 +15,7 @@ var pluginName = 'sharrre',
         googlePlus: false,
         facebook: false,
         twitter: false,
+        tumblr: false,
         digg: false,
         delicious: false,
         stumbleupon: false,
@@ -67,6 +68,12 @@ var pluginName = 'sharrre',
           related: '',
           lang: 'en'
         },
+	tumblr: {
+          url: '',
+          urlCount: false,
+          description: '',
+          name: ''
+        },        
         digg: { //http://about.digg.com/downloads/button/smart
           url: '',  //if you need to personalize url button
           urlCount: false,  //if you want to use personnalize button url on global counter
@@ -111,6 +118,7 @@ var pluginName = 'sharrre',
       twitter: "//cdn.api.twitter.com/1/urls/count.json?url={url}&callback=?",
       digg: "//services.digg.com/2.0/story.getInfo?links={url}&type=javascript&callback=?",
       delicious: '//feeds.delicious.com/v2/json/urlinfo/data?url={url}&callback=?',
+      tumblr: "",
       //stumbleupon: "//www.stumbleupon.com/services/1.01/badge.getinfo?url={url}&format=jsonp&callback=?",
       stumbleupon: "",
       linkedin: "//www.linkedin.com/countserv/count/share?format=jsonp&url={url}&callback=?",
@@ -179,6 +187,25 @@ var pluginName = 'sharrre',
           $.ajax({ url: '//platform.twitter.com/widgets.js', dataType: 'script', cache:true}); //http://stackoverflow.com/q/6536108
         }
       },
+      tumblr: function(self) {
+       var sett = self.options.buttons.tumblr;
+       $(self.element).find('.buttons').append('<div title="Share on Tumblr" class="button tumblr><a class="tumblr-share-button" href="http://www.tumblr.com/share/link?url='+(sett.url !== '' ? sett.url : self.options.url)+' ">Share on Tumblr</a></div>')
+       var loading = 0;
+       if(typeof Tumblr === 'undefined' && loading == 0) {
+         loading = 1;
+         (function() {
+           var tumblrScriptTag = document.createElement('script');
+           var s = document.getElementsByTagName('script')[0];
+           tumblrScriptTag.type = 'text/javascript';
+           tumblrScriptTag.async = true;
+           tumblrScriptTag.src = '//platform.tumblr.com/v1/share.js';
+           s.parentNode.insertBefore(tumblrScriptTag, s);
+         })();
+       }
+       else {
+         Tumblr.activate_share_on_tumblr_buttons();
+       }
+      },      
       digg : function(self){
         var sett = self.options.buttons.digg;
         $(self.element).find('.buttons').append('<div class="button digg"><a class="DiggThisButton '+sett.type+'" rel="nofollow external" href="http://digg.com/submit?url='+encodeURIComponent((sett.url !== '' ? sett.url : self.options.url))+'"></a></div>');
@@ -306,6 +333,7 @@ var pluginName = 'sharrre',
           }
         },1000);
       },
+      tumblr: function(){},      
       digg: function(){
         //if somenone find a solution, mail me !
         /*$(this.element).find('.digg').on('click', function(){
@@ -336,6 +364,9 @@ var pluginName = 'sharrre',
       twitter: function(opt){
         window.open("https://twitter.com/intent/tweet?text="+encodeURIComponent(opt.text)+"&url="+encodeURIComponent((opt.buttons.twitter.url !== '' ? opt.buttons.twitter.url : opt.url))+(opt.buttons.twitter.via !== '' ? '&via='+opt.buttons.twitter.via : ''), "", "toolbar=0, status=0, width=650, height=360");
       },
+      tumblr: function(opt){
+       window.open("http://www.tumblr.com/share/link?url="+encodeURIComponent(opt.buttons.tumblr.url) + "&name=" + encodeURIComponent(opt.buttons.tumblr.name) + "&description=" + encodeURIComponent(opt.buttons.tumblr.description), "", "toolbar=0, status=0, width=900, height=500");
+      },      
       digg: function(opt){
         window.open("http://digg.com/tools/diggthis/submit?url="+encodeURIComponent((opt.buttons.digg.url !== '' ? opt.buttons.digg.url : opt.url))+"&title="+opt.text+"&related=true&style=true", "", "toolbar=0, status=0, width=650, height=360");
       },
