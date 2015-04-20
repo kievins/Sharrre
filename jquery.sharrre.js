@@ -126,7 +126,7 @@ var pluginName = 'sharrre',
           lang: self.options.buttons.googlePlus.lang
         };
         var loading = 0;
-        if(typeof gapi === 'undefined' && loading == 0){
+        if((typeof gapi === 'undefined' || typeof gapi.plusone === 'undefined') && loading == 0){
           loading = 1;
           (function() {
             var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
