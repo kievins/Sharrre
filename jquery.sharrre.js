@@ -7,7 +7,7 @@
 
 ;(function ( $, window, document, undefined ) {
 
-  /* Defaults
+  /* Defaults */
 var pluginName = 'sharrre',
     defaults = {
       className: 'sharrre',
@@ -54,6 +54,7 @@ var pluginName = 'sharrre',
           send: 'false',
           faces: 'false',
           colorscheme: '',
+          share: '',
           font: '',
           lang: 'en_US'
         },
@@ -140,7 +141,7 @@ var pluginName = 'sharrre',
       },
       facebook : function(self){
         var sett = self.options.buttons.facebook;
-        $(self.element).find('.buttons').append('<div class="button facebook"><div id="fb-root"></div><div class="fb-like" data-href="'+(sett.url !== '' ? sett.url : self.options.url)+'" data-send="'+sett.send+'" data-layout="'+sett.layout+'" data-width="'+sett.width+'" data-show-faces="'+sett.faces+'" data-action="'+sett.action+'" data-colorscheme="'+sett.colorscheme+'" data-font="'+sett.font+'" data-via="'+sett.via+'"></div></div>');
+        $(self.element).find('.buttons').append('<div class="button facebook"><div id="fb-root"></div><div class="fb-like" data-href="'+(sett.url !== '' ? sett.url : self.options.url)+'" data-send="'+sett.send+'" data-layout="'+sett.layout+'" data-width="'+sett.width+'" data-show-faces="'+sett.faces+'" data-action="'+sett.action+'" data-colorscheme="'+sett.colorscheme+'" data-font="'+sett.font+'" data-via="'+sett.via+'" data-share="'+sett.share+'"></div></div>');
         var loading = 0;
         if(typeof FB === 'undefined' && loading == 0){
           loading = 1;
@@ -149,6 +150,9 @@ var pluginName = 'sharrre',
             if (d.getElementById(id)) {return;}
             js = d.createElement(s); js.id = id;
             js.src = '//connect.facebook.net/'+sett.lang+'/all.js#xfbml=1';
+            if (sett.appId) {
+                js.src += '&appId='+sett.appId;
+            }            
             fjs.parentNode.insertBefore(js, fjs);
           }(document, 'script', 'facebook-jssdk'));
         }
@@ -158,7 +162,7 @@ var pluginName = 'sharrre',
       },
       twitter : function(self){
         var sett = self.options.buttons.twitter;
-        $(self.element).find('.buttons').append('<div class="button twitter"><a href="https://twitter.com/share" class="twitter-share-button" data-url="'+(sett.url !== '' ? sett.url : self.options.url)+'" data-count="'+sett.count+'" data-text="'+self.options.text+'" data-via="'+sett.via+'" data-hashtags="'+sett.hashtags+'" data-related="'+sett.related+'" data-lang="'+sett.lang+'">Tweet</a></div>');
+        $(self.element).find('.buttons').append('<div class="button twitter"><a href="https://twittedata-shar.com/share" class="twitter-share-button" data-url="'+(sett.url !== '' ? sett.url : self.options.url)+'" data-count="'+sett.count+'" data-text="'+self.options.text+'" data-via="'+sett.via+'" data-hashtags="'+sett.hashtags+'" data-related="'+sett.related+'" data-lang="'+sett.lang+'">Tweet</a></div>');
         var loading = 0;
         if(typeof twttr === 'undefined' && loading == 0){
           loading = 1;
