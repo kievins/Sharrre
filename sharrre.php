@@ -5,8 +5,11 @@
   $json['url'] = $_GET['url'];
   $url = urlencode($_GET['url']);
   $type = urlencode($_GET['type']);
-  $proxy = null;
-  $proxyAuth = array();
+  
+  /* Uncomment & edit the following lines to enable proxy */
+  //define('MY_PROXY_URL','my.proxy.com') ;
+  //define('MY_PROXY_USER', 'user' );
+  //define('MY_PROXY_PASSWORD', 'password' );
   
   if(filter_var($_GET['url'], FILTER_VALIDATE_URL)){
     if($type == 'googlePlus'){  //source http://www.helmutgranda.com/2011/11/01/get-a-url-google-count-via-php/
@@ -32,8 +35,6 @@
   echo str_replace('\\/','/',json_encode($json));
   
   function parse($encUrl){
-    global $proxy;
-    global $proxyAuth;
     
     $options = array(
       CURLOPT_RETURNTRANSFER => true, // return web page
@@ -50,10 +51,10 @@
     );
     $ch = curl_init();
     
-    if ($proxy != null) {
-      $options[CURLOPT_PROXY] = $proxy;
-      if (isset($proxyAuth['user']) && isset($proxyAuth['pwd'])) {
-        $options[CURLOPT_PROXYUSERPWD] = $proxyAuth['user'] . ':' . $proxyAuth['pwd'];
+    if (defined(MY_PROXY_URL)) {
+      $options[CURLOPT_PROXY] = MY_PROXY_URL;
+      if (defined(MY_PROXY_USER) && defined(MY_PROXY_PASSWORD)) {
+        $options[CURLOPT_PROXYUSERPWD] = MY_PROXY_USER . ':' . MY_PROXY_USER;
       }
     }
     
