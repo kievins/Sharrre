@@ -601,7 +601,8 @@ var pluginName = 'sharrre',
         delicious: {site: 'delicious', action: 'add'},
         stumbleupon: {site: 'stumbleupon', action: 'add'},
         linkedin: {site: 'linkedin', action: 'share'},
-        pinterest: {site: 'pinterest', action: 'pin'}
+        pinterest: {site: 'pinterest', action: 'pin'},
+        tumblr: {site: 'tumblr', action: 'share'}
       };
       //_gaq.push(['_trackSocial', tracking[site].site, tracking[site].action]);
       //ga('send', 'social', tracking[site].site, tracking[site].action);
