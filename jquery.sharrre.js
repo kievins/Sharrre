@@ -602,7 +602,8 @@ var pluginName = 'sharrre',
         stumbleupon: {site: 'stumbleupon', action: 'add'},
         linkedin: {site: 'linkedin', action: 'share'},
         pinterest: {site: 'pinterest', action: 'pin'},
-        tumblr: {site: 'tumblr', action: 'share'}
+        tumblr: {site: 'tumblr', action: 'share'},
+        mail: {site: 'mail', action: 'share'}
       };
       //_gaq.push(['_trackSocial', tracking[site].site, tracking[site].action]);
       //ga('send', 'social', tracking[site].site, tracking[site].action);
