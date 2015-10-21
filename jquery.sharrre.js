@@ -494,26 +494,34 @@ var pluginName = 'sharrre',
     if (self.options.urlCurl !== '') {  //urlCurl = '' if you don't want to used PHP script but used social button
 
       $.getJSON(self.buildSocialURL(url, name), function(json){
-        if(typeof json.count !== "undefined"){  //GooglePlus, Stumbleupon, Twitter, Pinterest and Digg
-          var temp = json.count + '';
-          temp = temp.replace('\u00c2\u00a0', '');  //remove google plus special chars
-          count += parseInt(temp, 10);
-        }
-        
-        //get the FB total count (shares, likes and more)
-        else if(json.data && json.data.length > 0 && typeof json.data[0].total_count !== "undefined"){ //Facebook total count
-          count += parseInt(json.data[0].total_count, 10);
-        }
-        else if(typeof json[0] !== "undefined"){  //Delicious
-          count += parseInt(json[0].total_posts, 10);
-        }
-        else if(typeof json[0] !== "undefined"){  //Stumbleupon
-        }
+		
+		/*
+		* Do not fail entire script in case the php crashes by kievins
+		*/
+		if(json != null)
+		{
+			if(typeof json.count !== "undefined"){  //GooglePlus, Stumbleupon, Twitter, Pinterest and Digg
+	          var temp = json.count + '';
+	          temp = temp.replace('\u00c2\u00a0', '');  //remove google plus special chars
+	          count += parseInt(temp, 10);
+	        }
 
-        self.options.count[name] += count;
+	        //get the FB total count (shares, likes and more)
+	        else if(json.data && json.data.length > 0 && typeof json.data[0].total_count !== "undefined"){ //Facebook total count
+	          count += parseInt(json.data[0].total_count, 10);
+	        }
+	        else if(typeof json[0] !== "undefined"){  //Delicious
+	          count += parseInt(json[0].total_posts, 10);
+	        }
+	        else if(typeof json[0] !== "undefined"){  //Stumbleupon
+	        }
+		}
+		
+		self.options.count[name] += count;
         self.options.total += count;
         self.renderer();
         self.rendererPerso();
+		
       })
         .error(function() {
           self.options.count[name] = 0;
@@ -548,8 +556,10 @@ var pluginName = 'sharrre',
    ================================================== */
   Plugin.prototype.rendererPerso = function () {
     //check if this is the last social website to launch render
+
     var shareCount = 0;
     for (e in this.options.count) { shareCount++; }
+
     if(shareCount === this.options.shareTotal){
       this.options.render(this, this.options);
     }
