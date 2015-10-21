@@ -4,107 +4,90 @@
   <meta charset="UTF-8">
   <title>Sharrre.com</title>
   <meta name="description" content="Sharrre" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   <script src="http://code.jquery.com/jquery-1.7.min.js"></script>
   <script src="jquery.sharrre.js"></script>
   <script>
   $(function(){
-    $('#demo1').sharrre({
-      share: {
-        googlePlus: true,
-        facebook: true,
-        twitter: true,
-        delicious: true,
-        stumbleupon: true
-      },
-      url: 'http://www.google.com',
-      enableHover: false,
-      buttons: {
-        googlePlus: {size: 'tall'},
-        facebook: {layout: 'box_count'},
-        twitter: {count: 'vertical'},
-        delicious: {size: 'tall'},
-        stumbleupon: {size: 'tall'}
-      },
-      hover: function(api, options){
-        $(api.element).find('.buttons').show();      
-      },
-      hide: function(api, options){
-        $(api.element).find('.buttons').hide();
-      }
+	
+    jQuery('.shareme').sharrre({
+        share: {
+            twitter: true,
+            facebook: true,
+            googlePlus: true,
+            pinterest: true,
+            linkedin: true
+        },
+        template: '<div class="box"><div class="left"><strong>{total}</strong> shares</div><div class="right"><a href="#" class="sharrre-facebook"><i class="fa fa-facebook-square"></i></a><a href="#" class="sharrre-twitter"><i class="fa fa-twitter-square"></i></a><a href="#" class="sharrre-googleplus"><i class="fa fa-google-plus-square"></i></a><a href="#" class="sharrre-pinterest"><i class="fa fa-pinterest-square"></i></a><a href="#" class="sharrre-linkedin"><i class="fa fa-linkedin-square"></i></a></div></div>',
+        enableHover: false,
+        enableTracking: true,
+        urlCurl: 'sharrre.php?action=sharrre',
+        render: function(api, options){
+            jQuery(api.element).on('click', '.sharrre-twitter', function() {
+              api.openPopup('twitter');
+            });
+            jQuery(api.element).on('click', '.sharrre-facebook', function() {
+              api.openPopup('facebook');
+            });
+            jQuery(api.element).on('click', '.sharrre-googleplus', function() {
+              api.openPopup('googlePlus');
+            });
+            jQuery(api.element).on('click', '.sharrre-pinterest', function() {
+              api.openPopup('pinterest');
+            });
+            jQuery(api.element).on('click', '.sharrre-linkedin', function() {
+              api.openPopup('linkedin');
+            });
+        }
     });
-    
-    $('#demo2').sharrre({
-      share: {
-        googlePlus: true,
-        facebook: true,
-        twitter: true
-      },
-      url: 'http://www.sharrre.com',
-      enableHover: false
-    });
+	
   });
   </script>
   <style type="text/css">
-  #demo1.sharrre {
-    width:100%;
-    display:inline-block;
-  }
-  #demo2.sharrre {
-    width:50px;
-  }
-  .sharrre .box{
-    float:left;
-  }
-  .sharrre .count {
-    color:#444444;
-    display:block;
-    font-size:17px;
-    line-height:34px;
-    height:34px;
-    padding:4px 0;
-    position:relative;
-    text-align:center;
-    text-decoration:none;
-    width:50px;
-    background-color:#eee;
-    -webkit-border-radius:4px;
-    -moz-border-radius:4px;
-    border-radius:4px; 
-  }
-  .sharrre .share {
-    color:#FFFFFF;
-    display:block;
-    font-size:11px;
-    height:16px;
-    line-height:16px;
-    margin-top:3px;
-    padding:0;
-    text-align:center;
-    text-decoration:none;
-    width:50px;
-    background-color:#9CCE39;
-    -webkit-border-radius:4px;
-    -moz-border-radius:4px;
-    border-radius:4px; 
-  }
-  .sharrre .buttons {
-    display:none;
-    float:left;
-    width:300px;
-  }
-  .sharrre .button {
-    float:left;
-    max-width:50px;
-    height:50px;
-    margin-left:10px;
-  }
-</style>
+
+  	.post-sharrre .box {
+	  height: 18px;
+	}
+	.post-sharrre .box .left {
+	  text-align: right;
+	  display: inline-block;
+	  padding: 0 10px 0 6px;
+	  line-height: 18px;
+	  vertical-align: top;
+	  font-size: 13px;
+	}
+	.post-sharrre .box .right {
+	  text-align: right;
+	  display: inline-block;
+	  font-size: 18px;
+	}
+	.post-sharrre .box .right a {
+	  padding-right: 6px;
+	  color: #333333;
+	}
+	.post-sharrre .box .right a:hover {
+	  color: #007aff;
+	}
+	.product-share .meta-label {
+	  margin-right: 12px;
+	}
+	.product-share .post-sharrre {
+	  float: none;
+	  display: inline-block;
+	}
+	.product-share .post-sharrre .left {
+	  float: right;
+	}
+
+  </style>
 </head>
 <body>
   <h1>Sharrre demo</h1>
-  <div id="demo1" data-title="sharrre" data-url="http://sharrre.com" ></div>
-  <br /><br />
-  <div id="demo2"></div>
+  
+	<div class="post-sharrre">
+	    <div class="shareme" data-url="http://planetshine.net" data-text="Title"></div>
+	</div>
+
 </body>
 </html>
 
