@@ -117,7 +117,7 @@ var pluginName = 'sharrre',
       //old method facebook: "//graph.facebook.com/?id={url}&callback=?",
       //facebook : "//api.ak.facebook.com/restserver.php?v=1.0&method=links.getStats&urls={url}&format=json"
 
-      twitter: "//cdn.api.twitter.com/1/urls/count.json?url={url}",
+      twitter: "",
       digg: "//services.digg.com/2.0/story.getInfo?links={url}&type=javascript",
       delicious: '//feeds.delicious.com/v2/json/urlinfo/data?url={url}',
       tumblr: "",
