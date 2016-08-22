@@ -113,8 +113,8 @@ var pluginName = 'sharrre',
       googlePlus: "",
 
       //new FQL method by Sire
-      facebook: "//graph.facebook.com/fql?q=SELECT%20url,%20normalized_url,%20share_count,%20like_count,%20comment_count,%20total_count,commentsbox_count,%20comments_fbid,%20click_count%20FROM%20link_stat%20WHERE%20url=%27{url}%27",
-      //old method facebook: "//graph.facebook.com/?id={url}&callback=?",
+      //facebook: "//graph.facebook.com/fql?q=SELECT%20url,%20normalized_url,%20share_count,%20like_count,%20comment_count,%20total_count,commentsbox_count,%20comments_fbid,%20click_count%20FROM%20link_stat%20WHERE%20url=%27{url}%27",
+      facebook: "//graph.facebook.com/?id={url}&callback=?", //old method
       //facebook : "//api.ak.facebook.com/restserver.php?v=1.0&method=links.getStats&urls={url}&format=json"
 
       twitter: "",
@@ -519,9 +519,16 @@ var pluginName = 'sharrre',
                     }
 
                     //get the FB total count (shares, likes and more)
-                    else if(json.data && json.data.length > 0 && typeof json.data[0].total_count !== "undefined"){ //Facebook total count
-                      count += parseInt(json.data[0].total_count, 10);
+                    //else if(json.data && json.data.length > 0 && typeof json.data[0].total_count !== "undefined"){ //Facebook total count
+                    //  count += parseInt(json.data[0].total_count, 10);
+                    //}
+                    // Hacked: matt: FB api no longer returns share count, switching api's
+                    // returns data in this format now.
+                    else if(json.share && json.share && typeof json.share.share_count !== "undefined"){ //Facebook total count
+                      count += parseInt(json.share.share_count, 10);
                     }
+                    // End hacked: matt
+                    
                     else if(typeof json[0] !== "undefined"){  //Delicious
                       count += parseInt(json[0].total_posts, 10);
                     }
